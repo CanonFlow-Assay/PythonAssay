@@ -1,0 +1,23 @@
+name: PythonAssay CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.14.7
+      - run: python -m compileall -q src tests
+      - run: PYTHONPATH=src python -m unittest discover -s tests -v
+      - run: PYTHONPATH=src python -m python_assay.cli check examples/clean/src/domain --json
+      - run: '! PYTHONPATH=src python -m python_assay.cli check examples/violations/src/domain'
