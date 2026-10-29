@@ -100,3 +100,21 @@ migration, a general mutation engine, a coverage collector, a model benchmark,
 or platform/deployment qualification. Future increments can add deliberately
 reviewed application contracts, scope-complete receipts, packaged consumers and
 wider investigations. Preserve survivors and missing evidence throughout.
+
+## Exact-pin follow-up (29 October 2026)
+
+The original host-runtime experiment remains preserved under
+`artifacts/playground/astra-2026-10-29/`. A later isolated SDK preparation adds
+the exact existing pin without replacing the user's default runtime. Toolchain
+install logs and provenance are under the family's ignored
+`brainstorm/astra/evidence/toolchains-2026-10-29/native/` directory.
+The pinned follow-up uses a fresh `artifacts/pinned-2026-10-29/` directory.
+
+```sh
+ASTRA_NATIVE_SDK="$(realpath ../brainstorm/astra/evidence/toolchains-2026-10-29/native)"
+env PATH="$ASTRA_NATIVE_SDK/python/cpython-3.14.7-linux-x86_64-gnu/bin:$PATH" \
+  python3 playground/run.py --output artifacts/pinned-2026-10-29
+```
+
+Use a different fresh output directory when repeating the command. SDK paths
+are local task caches and are not a portable installer or a package release.
