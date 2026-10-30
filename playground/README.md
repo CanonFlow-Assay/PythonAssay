@@ -118,3 +118,6 @@ env PATH="$ASTRA_NATIVE_SDK/python/cpython-3.14.7-linux-x86_64-gnu/bin:$PATH" \
 
 Use a different fresh output directory when repeating the command. SDK paths
 are local task caches and are not a portable installer or a package release.
+
+See [phase-1 portable convergence](CONVERGENCE.md) for the next bounded Python
+application boundary and its nonclaims.
