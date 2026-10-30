@@ -67,13 +67,19 @@ def inspect_source(path: str | Path, source: str) -> tuple[Finding, ...]:
     return tuple(sorted(findings))
 
 
-def render_receipt(root: str | Path, scanned_files: int, findings: tuple[Finding, ...]) -> str:
+def render_receipt(root: str | Path, scanned_files: int, findings: tuple[Finding, ...],
+                   missing_evidence: tuple[str, ...] = ()) -> str:
     """Render canonical JSON suitable for a checked-in evidence comparison."""
+    gaps = tuple(sorted(set(missing_evidence)))
+    if scanned_files <= 0 and not gaps:
+        gaps = ("No supported source files were scanned.",)
     document = {
         "findings": [asdict(finding) for finding in findings],
         "root": str(root),
         "scannedFiles": scanned_files,
         "schemaVersion": "python-assay/v0.1",
-        "verdict": "Pass" if not findings else "Fail",
+        "verdict": "Fail" if findings else "Inconclusive" if gaps else "Pass",
     }
+    if gaps:
+        document["missingEvidence"] = list(gaps)
     return json.dumps(document, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
